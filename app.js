@@ -166,24 +166,23 @@ app.post("/vefat", async (req, res) => {
 });
 app.post("/maddihasar", async (req, res) => {
   const {
-    kazaturu,
     kazatarihi,
     kusurdurumu,
-    dogumyili,
-    cinsiyet,
     telno,
-    il,
     name,
+    aracMarka,
+    model,
+    aciklama
   } = req.body;
+  console.log(req.body)
   if (
-    !kazaturu ||
     !kazatarihi ||
     !kusurdurumu ||
-    !dogumyili ||
-    !cinsiyet ||
     !telno ||
-    !il ||
-    !name
+    !name ||
+    !aracMarka ||
+    !model ||
+    !aciklama 
   ) {
     res.status(400);
     res.json({
@@ -192,14 +191,13 @@ app.post("/maddihasar", async (req, res) => {
     });
   } else {
     await MaddiHasar.create({
-      kazaturu,
       kazatarihi,
       kusurdurumu,
-      dogumyili,
-      cinsiyet,
       telno,
-      il,
       name,
+      aracMarka,
+      model,
+      aciklama
     });
     res.json({ success: true });
   }
