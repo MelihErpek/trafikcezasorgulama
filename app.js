@@ -199,6 +199,30 @@ app.post("/maddihasar", async (req, res) => {
       model,
       aciklama
     });
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+      port: 465, // Port for SMTP (usually 465)
+      secure: true, // Usually true if connecting to port 465
+      auth: {
+        user: "meliherpek26@gmail.com",
+        pass: "xjiwwmqazompwlwo",
+      },
+    });
+    const mailOptions = {
+      from: "meliherpek26@gmail.com",
+      to: "info@trafiktazminathesapla.com",
+      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+      text: "Yeni kaydın bilgileri aşağıdadır.",
+      html:"<p>Kaza Tarihi: " + kazatarihi + "</p><p>Kusur Durumu: " + kusurdurumu + "</p><p>Telefon: " + telno + "</p><p>Ad Soyad: " + name + "</p><p>Araç Marka: " + aracMarka + "</p><p>Model: " + Model + "</p><p>Açıklama: " + aciklama + "</p>"
+    };
+  
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log("Hata oluştu: ", error);
+      } else {
+        console.log("E-posta başarıyla gönderildi: " + info.response);
+      }
+    });
     res.json({ success: true });
   }
 });
