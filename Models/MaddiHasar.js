@@ -1,22 +1,12 @@
 import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 const maddiHasarSchema = new Schema({
-    kazaturu: {
-        type: String
-    },
     kazatarihi: {
         type: Date
     },
     kusurdurumu: {
         type: String
     },
-    dogumyili: {
-        type: Number
-    },
-    cinsiyet: {
-        type: String
-    },
-    
     telno: {
         type: String
     },
@@ -25,7 +15,17 @@ const maddiHasarSchema = new Schema({
     },
     name: {
         type: String
+    },
+    aracMarka: {
+        type: String
+    },
+    model: {
+        type: String
+    },
+    aciklama: {
+        type: String
     }
+
     
 })
 export default mongoose.model('MaddiHasar', maddiHasarSchema)
