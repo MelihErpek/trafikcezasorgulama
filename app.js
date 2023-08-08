@@ -112,6 +112,51 @@ app.post("/yaralanma", async (req, res) => {
       il,
       name,
     });
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+      port: 465, // Port for SMTP (usually 465)
+      secure: true, // Usually true if connecting to port 465
+      auth: {
+        user: "meliherpek26@gmail.com",
+        pass: "xjiwwmqazompwlwo",
+      },
+    });
+    const mailOptions = {
+      from: "meliherpek26@gmail.com",
+      to: "info@trafiktazminathesapla.com",
+      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+      text: "Yeni kaydın bilgileri aşağıdadır.",
+      html:
+        "<p>Form Türü: Yaralanma</p>" +
+        "<p>Kaza Türü: " +
+        kazaturu +
+        "</p><p>Kaza Tarihi: " +
+        kazatarihi +
+        "</p><p>Kusur Durumu: " +
+        kusurdurumu +
+        "</p><p>Maluliyet Durumu: " +
+        maluliyetdurumu +
+        "</p><p>Doğum Yılı: " +
+        dogumyili +
+        "</p><p>Cinsiyet: " +
+        cinsiyet +
+        "</p><p>Gelir: " +
+        gelir +
+        "</p><p>Telefon: " +
+        telno +
+        "</p><p>İl: " +
+        il +
+        "</p><p>Ad Soyad: " +
+        name,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log("Hata oluştu: ", error);
+      } else {
+        console.log("E-posta başarıyla gönderildi: " + info.response);
+      }
+    });
     res.json({ success: true });
   }
 });
@@ -161,20 +206,59 @@ app.post("/vefat", async (req, res) => {
       il,
       name,
     });
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+      port: 465, // Port for SMTP (usually 465)
+      secure: true, // Usually true if connecting to port 465
+      auth: {
+        user: "meliherpek26@gmail.com",
+        pass: "xjiwwmqazompwlwo",
+      },
+    });
+    const mailOptions = {
+      from: "meliherpek26@gmail.com",
+      to: "info@trafiktazminathesapla.com",
+      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+      text: "Yeni kaydın bilgileri aşağıdadır.",
+      html:
+        "<p>Form Türü: Vefat</p>" +
+        "<p>Kaza Türü: " +
+        kazaturu +
+        "</p><p>Kaza Tarihi: " +
+        kazatarihi +
+        "</p><p>Kusur Durumu: " +
+        kusurdurumu +
+        "</p><p>Doğum Yılı: " +
+        dogumyili +
+        "</p><p>Cinsiyet: " +
+        cinsiyet +
+        "</p><p>Gelir: " +
+        gelir +
+        "</p><p>Yakınlık: " +
+        yakinlik +
+        "</p><p>Telefon: " +
+        telno +
+        "</p><p>Hak Sahibi Doğum Yılı: " +
+        dogumyiliHakSahibi +
+        "</p><p>İl: " +
+        il +
+        "</p><p>Ad Soyad: " +
+        name,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log("Hata oluştu: ", error);
+      } else {
+        console.log("E-posta başarıyla gönderildi: " + info.response);
+      }
+    });
     res.json({ success: true });
   }
 });
 app.post("/maddihasar", async (req, res) => {
-  const {
-    kazatarihi,
-    kusurdurumu,
-    telno,
-    name,
-    aracMarka,
-    model,
-    aciklama
-  } = req.body;
-  console.log(req.body)
+  const { kazatarihi, kusurdurumu, telno, name, aracMarka, model, aciklama } =
+    req.body;
   if (
     !kazatarihi ||
     !kusurdurumu ||
@@ -182,7 +266,7 @@ app.post("/maddihasar", async (req, res) => {
     !name ||
     !aracMarka ||
     !model ||
-    !aciklama 
+    !aciklama
   ) {
     res.status(400);
     res.json({
@@ -197,7 +281,7 @@ app.post("/maddihasar", async (req, res) => {
       name,
       aracMarka,
       model,
-      aciklama
+      aciklama,
     });
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
@@ -213,9 +297,25 @@ app.post("/maddihasar", async (req, res) => {
       to: "info@trafiktazminathesapla.com",
       subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
       text: "Yeni kaydın bilgileri aşağıdadır.",
-      html:"<p>Kaza Tarihi: " + kazatarihi + "</p><p>Kusur Durumu: " + kusurdurumu + "</p><p>Telefon: " + telno + "</p><p>Ad Soyad: " + name + "</p><p>Araç Marka: " + aracMarka + "</p><p>Model: " + Model + "</p><p>Açıklama: " + aciklama + "</p>"
+      html:
+        "<p>Form Türü: Maddi Hasar</p>" +
+        "<p>Kaza Tarihi: " +
+        kazatarihi +
+        "</p><p>Kusur Durumu: " +
+        kusurdurumu +
+        "</p><p>Telefon: " +
+        telno +
+        "</p><p>Ad Soyad: " +
+        name +
+        "</p><p>Araç Marka: " +
+        aracMarka +
+        "</p><p>Model: " +
+        model +
+        "</p><p>Açıklama: " +
+        aciklama +
+        "</p>",
     };
-  
+
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log("Hata oluştu: ", error);
@@ -254,7 +354,26 @@ app.get("/mail", async (req, res) => {
     from: "meliherpek26@gmail.com",
     to: "info@trafiktazminathesapla.com",
     subject: "Node.js Mailer Test",
-    text: "Selam, bu bir Node.js mail gönderme testidir.",
+    text:
+      "Selam, bu bir Node.js mail gönderme testidir." +
+      "Mail:asd@gmail.com" +
+      "İsim:Melih",
+    html:
+      "<p>Kaza Tarihi: " +
+      "kazatarihi" +
+      "</p><p>Kusur Durumu: " +
+      "kusurdurumu" +
+      "</p><p>Telefon: " +
+      "telno" +
+      "</p><p>Ad Soyad: " +
+      "name" +
+      "</p><p>Araç Marka: " +
+      "aracMarka" +
+      "</p><p>Model: " +
+      "Model" +
+      "</p><p>Açıklama: " +
+      "aciklama" +
+      "</p>",
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
