@@ -355,7 +355,7 @@ app.get("/mail", async (req, res) => {
     to: "info@trafiktazminathesapla.com",
     subject: "Node.js Mailer Test",
     text:
-      "Selam, bu bir Node.js mail gönderme testidir." +
+      "Selam, bu bir Node.js mail gönderme testidir.222222222222" +
       "Mail:asd@gmail.com" +
       "İsim:Melih",
     html:
@@ -367,7 +367,7 @@ app.get("/mail", async (req, res) => {
       "telno" +
       "</p><p>Ad Soyad: " +
       "name" +
-      "</p><p>Araç Marka: " +
+      "</p><p>Araç Marka2222222222222222: " +
       "aracMarka" +
       "</p><p>Model: " +
       "Model" +
@@ -380,9 +380,8 @@ app.get("/mail", async (req, res) => {
     if (error) {
       console.log("Hata oluştu: ", error);
     } else {
-      console.log("E-posta başarıyla gönderildi: " + info.response);
+      res.json({ success: true });
     }
   });
-  res.json({ success: true });
 });
 app.listen(5000, () => console.log("5000 portunda çalışıyor"));
