@@ -320,10 +320,9 @@ app.post("/maddihasar", async (req, res) => {
       if (error) {
         console.log("Hata oluştu: ", error);
       } else {
-        console.log("E-posta başarıyla gönderildi: " + info.response);
+        res.json({ success: true });
       }
     });
-    res.json({ success: true });
   }
 });
 
