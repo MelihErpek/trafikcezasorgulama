@@ -123,7 +123,7 @@ app.post("/yaralanma", async (req, res) => {
     });
     const mailOptions = {
       from: "meliherpek26@gmail.com",
-      to: "info@trafiktazminathesapla.com",
+      to: "trafiktazminathesapla@gmail.com",
       subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
       text: "Yeni kaydın bilgileri aşağıdadır.",
       html:
@@ -217,7 +217,7 @@ app.post("/vefat", async (req, res) => {
     });
     const mailOptions = {
       from: "meliherpek26@gmail.com",
-      to: "info@trafiktazminathesapla.com",
+      to: "trafiktazminathesapla@gmail.com",
       subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
       text: "Yeni kaydın bilgileri aşağıdadır.",
       html:
@@ -294,7 +294,7 @@ app.post("/maddihasar", async (req, res) => {
     });
     const mailOptions = {
       from: "meliherpek26@gmail.com",
-      to: "info@trafiktazminathesapla.com",
+      to: "trafiktazminathesapla@gmail.com",
       subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
       text: "Yeni kaydın bilgileri aşağıdadır.",
       html:
