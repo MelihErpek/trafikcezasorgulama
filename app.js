@@ -383,6 +383,6 @@ app.get("/mail", async (req, res) => {
       console.log("E-posta başarıyla gönderildi: " + info.response);
     }
   });
-  res.json({ success: true });
+  
 });
 app.listen(5000, () => console.log("5000 portunda çalışıyor"));
