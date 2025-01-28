@@ -39,7 +39,7 @@ mongoose.connect(
 );
 
 app.get("/", (req, res) => {
-  res.send("çalışıyor");
+  res.send("working");
 });
 
 app.post("/adduser", async (req, res) => {
