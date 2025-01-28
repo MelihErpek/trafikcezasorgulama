@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "trafiktazminat",
+  "private_key_id": "c7840454cd01b28b32faef5628480ec5b9347912",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDC4ooKLGUmmDva\nVwcqxUQjUSfuIHVy01/PZMI6CC4vWwdjDvvMSnXuCz5ca/n1BLjzLOgOQv0x1I7T\nKLZewhZPl4zgYtHag/wK6L5tLlZBl84xVO8WlTiCGswV2y0G1tGQlTAxGX2OBQTX\nuxirtxBpisLlKlGUXJSdZSNket65SV2ER3NVqGGos+JBlbYXXMKi+Ja1hh0ngbP6\ndfHMq1Hr5kb8/Et9dQZubRK67KHlV5AhVz0/hzZ3GH0ZdWIeP8FbmE2/LUGmAwEq\nwhwUJZvdZNyHtacUVtYB0lmZ0uhTnQXqe2oPuezPAw1MT06ff1nLYdyULrG54GdS\njduynEd3AgMBAAECggEAQfh/9AutPhBginvVYEQg2be6RaDVQUaOc11PZmeogr1U\n1dKXqEM4gplpxc2Dcs7jcOYts843eavToWVxvsgC13Sc6sRo94igRG0fMURzTIb/\n9LEkskdXNqutlGR6bItBq6jlBGn1l6LZTdH2+wHgW2nuqbbWoNtqL5GyFmyFgsDc\n12wKwDqgxshztovAI0uNVZQZ6rJwzL0ilaQuwEBhg96mrE8DBwMG6N6vr3DetQ7D\noKWRumGM11Fc9UUbXWkgeKpL7XEW/S5NKT3SB6kFMthvgegl6g3CsEYKACtK7gUz\ngIN1WLZA8DUglgRY9X9oLzrk1a6i/bzuAxAC1x8+QQKBgQDa8Q0R7CJyJ6igtpX7\nNWJ0khhPlXjfglRNTUrlTXkMdVPXT59Zx0rWyupFvTy/4DHEJY2VYa1tulSbi71I\nq40fYlfsTtcp9xCcjrLeyP/ovo9Ntd3z0T02boQyuRyiI2WcURRXkt7nZBsNiI+F\npAVRIXOT5sRQ7bgSvHkhKx/c1wKBgQDj3xbEpbU8NnlkqDv4DVuQC9n4vanM+SBw\nTYV3ak8EvHa8T3K3C5zmQuWVIKr6GoBiWQjmAadve3BMbG1rzFpJ+iSHhYiqF1zl\npcyHBjjnG06xlXAr5FTStK4fDT0n/3MiUANQ+5XHFp9KyqxsIIxfnefp1y62Rsly\nBe5xN+X2YQKBgQCh5S9B+nd6LCNAO+Npr48PHdzGNIP92nSV+LqSFpiVAsktZF4z\n1+9aJw/W49jhFVoXbaFlPaYthmP75PfhnaEr/N+BCMeH636oFcjkfoLlSsvSrdHi\n8e0uq8grbcBjkIMZdMby/tK/DcIHXtyp+KBJ3s+FJVYzdaTwjdeQFEBqXwKBgQCQ\nzmEaoC9Wz0s/YwWQ8XQhSta+klCIeDxcAXdyVnVWjilqK5a7qb6QOSzKItNkUlkJ\npojYGW78klXfyvuSCG/MGREDqiEZ7fTT3xPlLlgUzS6p/UwmKFia+cS46OHXPCc/\nQ9eHrAkXVlHt5nPB1sE9tgv9dwgxPzSeqBRJkHsroQKBgBI4ePjTeYvuyZDyRGAA\n/xExYsiR3O+vteu3F0ii88gnEA/LrBTIbsFDBsfCnhNtUfh8F3iSPfb0piO+2ffo\nMnd2LGZtNcGfzBJhlRSWxjWvAKSSucgVM6R5AuBKa1xHgInWuLovm4LhsnZZvVD9\nkSRC6M41NXo8NCz77M5xAsQL\n-----END PRIVATE KEY-----\n",
+  "client_email": "trafik-tazminat@trafiktazminat.iam.gserviceaccount.com",
+  "client_id": "110398646696762334030",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/trafik-tazminat%40trafiktazminat.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
