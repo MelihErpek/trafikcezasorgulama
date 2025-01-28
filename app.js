@@ -7,8 +7,9 @@ import Yaralanma from "./Models/Yaralanma.js";
 import Vefat from "./Models/Vefat.js";
 import MaddiHasar from "./Models/MaddiHasar.js";
 import nodemailer from "nodemailer";
-const app = express();
 import google from "googleapis";
+
+const app = express();
 
 const url =
   "mongodb+srv://melihnode:meliherpek1@cluster0.g1oel.mongodb.net/Trafik?authSource=admin&replicaSet=atlas-77ie5j-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true";
