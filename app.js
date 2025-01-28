@@ -8,6 +8,7 @@ import Vefat from "./Models/Vefat.js";
 import MaddiHasar from "./Models/MaddiHasar.js";
 import nodemailer from "nodemailer";
 const app = express();
+import google from "googleapis";
 
 const url =
   "mongodb+srv://melihnode:meliherpek1@cluster0.g1oel.mongodb.net/Trafik?authSource=admin&replicaSet=atlas-77ie5j-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true";
@@ -40,6 +41,48 @@ mongoose.connect(
 
 app.get("/", (req, res) => {
   res.send("working");
+});
+
+const client = new google.auth.JWT(keys.client_email, null, keys.private_key, [
+  "https://www.googleapis.com/auth/spreadsheets",
+]);
+
+client.authorize(function (err, tokens) {
+  if (err) {
+    console.error("Error authorizing Google Sheets:", err);
+    return;
+  }
+  console.log("Connected to Google Sheets API");
+});
+
+app.get("/addData", (req, res) => {
+  const sheets = google.sheets({ version: "v4", auth: client });
+
+  let data = [
+    // Örnek veri
+    ["John", "Doe", "johndoe@gmail.com"],
+  ];
+
+  const sheetId = "1FYRiPUEyWEfsNRim6ijJcDFNamtc6sQev1wvfuUqJ74"; // Google Sheets URL'inden alabilirsiniz
+  sheets.spreadsheets.values.append(
+    {
+      spreadsheetId: sheetId,
+      range: "A1", // Hangi hücreden başlayacağını belirtin
+      valueInputOption: "RAW",
+      insertDataOption: "INSERT_ROWS",
+      resource: {
+        values: data,
+      },
+    },
+    (err, result) => {
+      if (err) {
+        console.error("Error writing to Google Sheets:", err);
+        res.status(500).send("Google Sheets Error");
+      } else {
+        res.status(200).send("Data added to Google Sheets");
+      }
+    }
+  );
 });
 
 app.post("/adduser", async (req, res) => {
