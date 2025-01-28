@@ -9,7 +9,8 @@ import MaddiHasar from "./Models/MaddiHasar.js";
 import nodemailer from "nodemailer";
 import google from "googleapis";
 
-import keys from "./tth.json";
+import keys from './tth.json' assert { type: 'json' };
+
 const app = express();
 
 const url =
