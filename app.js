@@ -9,7 +9,6 @@ import MaddiHasar from "./Models/MaddiHasar.js";
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 
-import keys from "./tth.json" assert { type: "json" };
 const app = express();
 
 const url =
@@ -44,7 +43,7 @@ mongoose.connect(
 app.get("/", (req, res) => {
   res.send("çalışıyor");
 });
-const client = new google.auth.JWT(keys.client_email, null, keys.private_key, [
+const client = new google.auth.JWT("trafik-tazminat@trafiktazminat.iam.gserviceaccount.com", null, process.env.GOOGLE_SHEET_API_KEY, [
   "https://www.googleapis.com/auth/spreadsheets",
 ]);
 
