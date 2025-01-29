@@ -7,10 +7,9 @@ import Yaralanma from "./Models/Yaralanma.js";
 import Vefat from "./Models/Vefat.js";
 import MaddiHasar from "./Models/MaddiHasar.js";
 import nodemailer from "nodemailer";
-import google from "googleapis";
+import { google } from "googleapis";
 
-import keys from './tth.json' assert { type: 'json' };
-
+import keys from "./tth.json" assert { type: "json" };
 const app = express();
 
 const url =
@@ -43,9 +42,8 @@ mongoose.connect(
 );
 
 app.get("/", (req, res) => {
-  res.send("working");
+  res.send("çalışıyor");
 });
-
 const client = new google.auth.JWT(keys.client_email, null, keys.private_key, [
   "https://www.googleapis.com/auth/spreadsheets",
 ]);
@@ -65,12 +63,13 @@ app.get("/addData", (req, res) => {
     // Örnek veri
     ["John", "Doe", "johndoe@gmail.com"],
   ];
+  const range = "Yaralanmalı" + "!A2";
 
-  const sheetId = "1FYRiPUEyWEfsNRim6ijJcDFNamtc6sQev1wvfuUqJ74"; // Google Sheets URL'inden alabilirsiniz
+  const sheetId = "1ler1J9DEjfmiAvaFihzI7_vqHH-5qiCLZykC-azKkGE"; // Google Sheets URL'inden alabilirsiniz
   sheets.spreadsheets.values.append(
     {
       spreadsheetId: sheetId,
-      range: "A1", // Hangi hücreden başlayacağını belirtin
+      range: range, // Hangi hücreden başlayacağını belirtin
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: {
@@ -146,6 +145,49 @@ app.post("/yaralanma", async (req, res) => {
       ErrorMessage: "Bütün alanlar doldurulmalıdır.",
     });
   } else {
+    const sheets = google.sheets({ version: "v4", auth: client });
+    const now = new Date(Date.now());
+
+    // Türkiye'nin saat diliminde tarihi ve saati al
+    const turkiyeZamani = now.toLocaleString("tr-TR", {
+      timeZone: "Europe/Istanbul",
+    });
+    let data = [
+      // Örnek veri
+      [
+        kazatarihi,
+        kusurdurumu,
+        maluliyetdurumu,
+        dogumyili,
+        cinsiyet,
+        gelir,
+        name,
+        telno,
+        il,
+        turkiyeZamani,
+      ],
+    ];
+    const range = "Yaralanmalı" + "!A2";
+
+    const sheetId = "1ler1J9DEjfmiAvaFihzI7_vqHH-5qiCLZykC-azKkGE"; // Google Sheets URL'inden alabilirsiniz
+    sheets.spreadsheets.values.append(
+      {
+        spreadsheetId: sheetId,
+        range: range, // Hangi hücreden başlayacağını belirtin
+        valueInputOption: "RAW",
+        insertDataOption: "INSERT_ROWS",
+        resource: {
+          values: data,
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.error("Error writing to Google Sheets:", err);
+          res.status(500).send("Google Sheets Error");
+        } else {
+        }
+      }
+    );
     await Yaralanma.create({
       kazaturu,
       kazatarihi,
@@ -158,52 +200,52 @@ app.post("/yaralanma", async (req, res) => {
       il,
       name,
     });
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
-      port: 465, // Port for SMTP (usually 465)
-      secure: true, // Usually true if connecting to port 465
-      auth: {
-        user: "meliherpek26@gmail.com",
-        pass: "xjiwwmqazompwlwo",
-      },
-    });
-    const mailOptions = {
-      from: "meliherpek26@gmail.com",
-      to: "trafiktazminathesapla@gmail.com",
-      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
-      text: "Yeni kaydın bilgileri aşağıdadır.",
-      html:
-        "<p>Form Türü: Yaralanma</p>" +
-        "<p>Kaza Türü: " +
-        kazaturu +
-        "</p><p>Kaza Tarihi: " +
-        kazatarihi +
-        "</p><p>Kusur Durumu: " +
-        kusurdurumu +
-        "</p><p>Maluliyet Durumu: " +
-        maluliyetdurumu +
-        "</p><p>Doğum Yılı: " +
-        dogumyili +
-        "</p><p>Cinsiyet: " +
-        cinsiyet +
-        "</p><p>Gelir: " +
-        gelir +
-        "</p><p>Telefon: " +
-        telno +
-        "</p><p>İl: " +
-        il +
-        "</p><p>Ad Soyad: " +
-        name,
-    };
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+    //   port: 465, // Port for SMTP (usually 465)
+    //   secure: true, // Usually true if connecting to port 465
+    //   auth: {
+    //     user: "meliherpek26@gmail.com",
+    //     pass: "xjiwwmqazompwlwo",
+    //   },
+    // });
+    // const mailOptions = {
+    //   from: "meliherpek26@gmail.com",
+    //   to: "info@trafiktazminathesapla.com",
+    //   subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+    //   text: "Yeni kaydın bilgileri aşağıdadır.",
+    //   html:
+    //     "<p>Form Türü: Yaralanma</p>" +
+    //     "<p>Kaza Türü: " +
+    //     kazaturu +
+    //     "</p><p>Kaza Tarihi: " +
+    //     kazatarihi +
+    //     "</p><p>Kusur Durumu: " +
+    //     kusurdurumu +
+    //     "</p><p>Maluliyet Durumu: " +
+    //     maluliyetdurumu +
+    //     "</p><p>Doğum Yılı: " +
+    //     dogumyili +
+    //     "</p><p>Cinsiyet: " +
+    //     cinsiyet +
+    //     "</p><p>Gelir: " +
+    //     gelir +
+    //     "</p><p>Telefon: " +
+    //     telno +
+    //     "</p><p>İl: " +
+    //     il +
+    //     "</p><p>Ad Soyad: " +
+    //     name,
+    // };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log("Hata oluştu: ", error);
-      } else {
-        res.json({ success: true });
-
-      }
-    });
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log("Hata oluştu: ", error);
+    //   } else {
+    //     res.json({ success: true });
+    //   }
+    // });
+    res.json({ success: true });
   }
 });
 app.post("/vefat", async (req, res) => {
@@ -239,6 +281,50 @@ app.post("/vefat", async (req, res) => {
       ErrorMessage: "Bütün alanlar doldurulmalıdır.",
     });
   } else {
+    const sheets = google.sheets({ version: "v4", auth: client });
+    const now = new Date(Date.now());
+
+    // Türkiye'nin saat diliminde tarihi ve saati al
+    const turkiyeZamani = now.toLocaleString("tr-TR", {
+      timeZone: "Europe/Istanbul",
+    });
+    let data = [
+      // Örnek veri
+      [
+        kazatarihi,
+        kusurdurumu,
+        dogumyili,
+        cinsiyet,
+        gelir,
+        yakinlik,
+        name,
+        telno,
+        dogumyiliHakSahibi,
+        il,
+        turkiyeZamani,
+      ],
+    ];
+    const range = "Ölümlü" + "!A2";
+
+    const sheetId = "1ler1J9DEjfmiAvaFihzI7_vqHH-5qiCLZykC-azKkGE"; // Google Sheets URL'inden alabilirsiniz
+    sheets.spreadsheets.values.append(
+      {
+        spreadsheetId: sheetId,
+        range: range, // Hangi hücreden başlayacağını belirtin
+        valueInputOption: "RAW",
+        insertDataOption: "INSERT_ROWS",
+        resource: {
+          values: data,
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.error("Error writing to Google Sheets:", err);
+          res.status(500).send("Google Sheets Error");
+        } else {
+        }
+      }
+    );
     await Vefat.create({
       kazaturu,
       kazatarihi,
@@ -252,54 +338,54 @@ app.post("/vefat", async (req, res) => {
       il,
       name,
     });
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
-      port: 465, // Port for SMTP (usually 465)
-      secure: true, // Usually true if connecting to port 465
-      auth: {
-        user: "meliherpek26@gmail.com",
-        pass: "xjiwwmqazompwlwo",
-      },
-    });
-    const mailOptions = {
-      from: "meliherpek26@gmail.com",
-      to: "trafiktazminathesapla@gmail.com",
-      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
-      text: "Yeni kaydın bilgileri aşağıdadır.",
-      html:
-        "<p>Form Türü: Vefat</p>" +
-        "<p>Kaza Türü: " +
-        kazaturu +
-        "</p><p>Kaza Tarihi: " +
-        kazatarihi +
-        "</p><p>Kusur Durumu: " +
-        kusurdurumu +
-        "</p><p>Doğum Yılı: " +
-        dogumyili +
-        "</p><p>Cinsiyet: " +
-        cinsiyet +
-        "</p><p>Gelir: " +
-        gelir +
-        "</p><p>Yakınlık: " +
-        yakinlik +
-        "</p><p>Telefon: " +
-        telno +
-        "</p><p>Hak Sahibi Doğum Yılı: " +
-        dogumyiliHakSahibi +
-        "</p><p>İl: " +
-        il +
-        "</p><p>Ad Soyad: " +
-        name,
-    };
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+    //   port: 465, // Port for SMTP (usually 465)
+    //   secure: true, // Usually true if connecting to port 465
+    //   auth: {
+    //     user: "meliherpek26@gmail.com",
+    //     pass: "xjiwwmqazompwlwo",
+    //   },
+    // });
+    // const mailOptions = {
+    //   from: "meliherpek26@gmail.com",
+    //   to: "info@trafiktazminathesapla.com",
+    //   subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+    //   text: "Yeni kaydın bilgileri aşağıdadır.",
+    //   html:
+    //     "<p>Form Türü: Vefat</p>" +
+    //     "<p>Kaza Türü: " +
+    //     kazaturu +
+    //     "</p><p>Kaza Tarihi: " +
+    //     kazatarihi +
+    //     "</p><p>Kusur Durumu: " +
+    //     kusurdurumu +
+    //     "</p><p>Doğum Yılı: " +
+    //     dogumyili +
+    //     "</p><p>Cinsiyet: " +
+    //     cinsiyet +
+    //     "</p><p>Gelir: " +
+    //     gelir +
+    //     "</p><p>Yakınlık: " +
+    //     yakinlik +
+    //     "</p><p>Telefon: " +
+    //     telno +
+    //     "</p><p>Hak Sahibi Doğum Yılı: " +
+    //     dogumyiliHakSahibi +
+    //     "</p><p>İl: " +
+    //     il +
+    //     "</p><p>Ad Soyad: " +
+    //     name,
+    // };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log("Hata oluştu: ", error);
-      } else {
-        res.json({ success: true });
-
-      }
-    });
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log("Hata oluştu: ", error);
+    //   } else {
+    //     res.json({ success: true });
+    //   }
+    // });
+    res.json({ success: true });
   }
 });
 app.post("/maddihasar", async (req, res) => {
@@ -320,6 +406,46 @@ app.post("/maddihasar", async (req, res) => {
       ErrorMessage: "Bütün alanlar doldurulmalıdır.",
     });
   } else {
+    const sheets = google.sheets({ version: "v4", auth: client });
+    const now = new Date(Date.now());
+
+    // Türkiye'nin saat diliminde tarihi ve saati al
+    const turkiyeZamani = now.toLocaleString("tr-TR", {
+      timeZone: "Europe/Istanbul",
+    });
+    let data = [
+      [
+        kazatarihi,
+        kusurdurumu,
+        name,
+        telno,
+        aracMarka,
+        model,
+        aciklama,
+        turkiyeZamani,
+      ],
+    ];
+    const range = "Maddi Hasarlı" + "!A2";
+
+    const sheetId = "1ler1J9DEjfmiAvaFihzI7_vqHH-5qiCLZykC-azKkGE"; // Google Sheets URL'inden alabilirsiniz
+    sheets.spreadsheets.values.append(
+      {
+        spreadsheetId: sheetId,
+        range: range, // Hangi hücreden başlayacağını belirtin
+        valueInputOption: "RAW",
+        insertDataOption: "INSERT_ROWS",
+        resource: {
+          values: data,
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.error("Error writing to Google Sheets:", err);
+          res.status(500).send("Google Sheets Error");
+        } else {
+        }
+      }
+    );
     await MaddiHasar.create({
       kazatarihi,
       kusurdurumu,
@@ -329,46 +455,47 @@ app.post("/maddihasar", async (req, res) => {
       model,
       aciklama,
     });
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
-      port: 465, // Port for SMTP (usually 465)
-      secure: true, // Usually true if connecting to port 465
-      auth: {
-        user: "meliherpek26@gmail.com",
-        pass: "xjiwwmqazompwlwo",
-      },
-    });
-    const mailOptions = {
-      from: "meliherpek26@gmail.com",
-      to: "trafiktazminathesapla@gmail.com",
-      subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
-      text: "Yeni kaydın bilgileri aşağıdadır.",
-      html:
-        "<p>Form Türü: Maddi Hasar</p>" +
-        "<p>Kaza Tarihi: " +
-        kazatarihi +
-        "</p><p>Kusur Durumu: " +
-        kusurdurumu +
-        "</p><p>Telefon: " +
-        telno +
-        "</p><p>Ad Soyad: " +
-        name +
-        "</p><p>Araç Marka: " +
-        aracMarka +
-        "</p><p>Model: " +
-        model +
-        "</p><p>Açıklama: " +
-        aciklama +
-        "</p>",
-    };
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.gmail.com", // SMTP server address (usually mail.your-domain.com)
+    //   port: 465, // Port for SMTP (usually 465)
+    //   secure: true, // Usually true if connecting to port 465
+    //   auth: {
+    //     user: "meliherpek26@gmail.com",
+    //     pass: "xjiwwmqazompwlwo",
+    //   },
+    // });
+    // const mailOptions = {
+    //   from: "meliherpek26@gmail.com",
+    //   to: "info@trafiktazminathesapla.com",
+    //   subject: "trafiktazminathesapla.com Yeni Kayıt Geldi",
+    //   text: "Yeni kaydın bilgileri aşağıdadır.",
+    //   html:
+    //     "<p>Form Türü: Maddi Hasar</p>" +
+    //     "<p>Kaza Tarihi: " +
+    //     kazatarihi +
+    //     "</p><p>Kusur Durumu: " +
+    //     kusurdurumu +
+    //     "</p><p>Telefon: " +
+    //     telno +
+    //     "</p><p>Ad Soyad: " +
+    //     name +
+    //     "</p><p>Araç Marka: " +
+    //     aracMarka +
+    //     "</p><p>Model: " +
+    //     model +
+    //     "</p><p>Açıklama: " +
+    //     aciklama +
+    //     "</p>",
+    // };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log("Hata oluştu: ", error);
-      } else {
-        res.json({ success: true });
-      }
-    });
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     console.log("Hata oluştu: ", error);
+    //   } else {
+    //     res.json({ success: true });
+    //   }
+    // });
+    res.json({ success: true });
   }
 });
 
